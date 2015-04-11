@@ -56,7 +56,7 @@
     NSAssert([toViewController isKindOfClass:TGRImageViewController.class], @"*** toViewController must be a TGRImageViewController!");
     
     toViewController.view.frame = transitionContext.containerView.frame;
-    [toViewController.view setNeedsLayout];
+    [toViewController.view layoutIfNeeded];
     
     // Create a temporary view for the zoom in transition and set the initial frame based
     // on the reference image view
@@ -74,8 +74,6 @@
     // Perform the transition using a spring motion effect
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
-    self.referenceImageView.alpha = 0;
-    
     [UIView animateWithDuration:duration
                           delay:0
          usingSpringWithDamping:0.7
@@ -83,7 +81,6 @@
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          fromViewController.view.alpha = 0;
-                         transitionView.layer.cornerRadius = CGRectGetWidth(transitionView.frame) / 2; 
                          transitionView.frame = transitionViewFinalFrame;
                      }
                      completion:^(BOOL finished) {
@@ -129,6 +126,7 @@
     transitionView.contentMode = UIViewContentModeScaleAspectFill;
     transitionView.clipsToBounds = YES;
     transitionView.frame = transitionViewInitialFrame;
+    
     [transitionContext.containerView addSubview:transitionView];
     [fromViewController.view removeFromSuperview];
     
@@ -141,11 +139,14 @@
                      animations:^{
                          toViewController.view.alpha = 1;
                          transitionView.frame = transitionViewFinalFrame;
+                         transitionView.alpha = 0;
+                         transitionView.layer.cornerRadius = CGRectGetWidth(transitionView.frame) / 2;
+
                      } completion:^(BOOL finished) {
-                         self.referenceImageView.alpha = 1;
                          [transitionView removeFromSuperview];
                          [transitionContext completeTransition:YES];
                      }];
+
 }
 
 @end
