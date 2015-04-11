@@ -40,4 +40,7 @@
 // Initializes the receiver with the specified image.
 - (id)initWithImage:(UIImage *)image;
 
+@property (nonatomic, copy) void (^didDismissHandler)();
+
+
 @end

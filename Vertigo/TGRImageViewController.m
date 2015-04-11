@@ -56,27 +56,15 @@
     return self.imageView;
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}
-
 #pragma mark - Private methods
 
 - (IBAction)handleSingleTap:(UITapGestureRecognizer *)tapGestureRecognizer {
-    if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    else {
-        // Zoom out
-        [self.scrollView zoomToRect:self.scrollView.bounds animated:YES];
-    }
+    [self dismissViewControllerAnimated:YES completion:self.didDismissHandler];
 }
 
 - (IBAction)handleDoubleTap:(UITapGestureRecognizer *)tapGestureRecognizer {
     if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) {
-        // Zoom in
+        // Zoom ina
         CGPoint center = [tapGestureRecognizer locationInView:self.scrollView];
         CGSize size = CGSizeMake(self.scrollView.bounds.size.width / self.scrollView.maximumZoomScale,
                                  self.scrollView.bounds.size.height / self.scrollView.maximumZoomScale);
